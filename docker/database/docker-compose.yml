@@ -1,19 +1,36 @@
-version: '3'
+version: '3.8'
 
 services:
   db:
-    build: .
-    container_name: tx-server-database
-    ports:
-      - "3306:3306"
+    image: mysql:latest
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: admin-db
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: examplepassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
     volumes:
-      - mariadb_data:/var/lib/mysql
+#      sql init
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "1338:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: examplepassword
+      UPLOAD_LIMIT: 1G
+    ports:
+      - "1337:80"
+    depends_on:
+      - db
 
 volumes:
-  mariadb_data:
+  db_data:
     driver: local
+networks:
+  default:
+    driver: bridge

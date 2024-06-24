@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  tx-server:
-    build: .
-    container_name: tx-server
-    ports:
-      - "40120:40120"
-      - "30120:30120"

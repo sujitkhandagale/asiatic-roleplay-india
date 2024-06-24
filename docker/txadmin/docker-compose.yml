@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  fx-server-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fx-server
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+      - fx-server:/app
+    ports:
+      - "30120:30120/udp"
+      - "30120:30120"
+      - "40120:40120"
+      - "1022:22"
+
+networks:
+  default:
+    driver: bridge
+volumes:
+  fx-server:
+    driver: local

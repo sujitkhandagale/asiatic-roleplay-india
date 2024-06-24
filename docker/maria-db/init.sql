@@ -1,0 +1,3 @@
+-- init.sql
+GRANT ALL PRIVILEGES ON *.* TO 'exampleuser'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
